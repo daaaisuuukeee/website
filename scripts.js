@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const blogListElement = document.getElementById('blog-list');
     if (blogListElement) {
         console.log('Blog list element found');
-        fetch('blog/posts.json')
+        fetch('/website/blog/posts.json')  // 修正: 絶対パスを使用
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -24,14 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     `;
                     blogListElement.appendChild(postElement);
                 });
-
-                // LazyLoadの初期化
-                const lazyLoadInstance = new LazyLoad({
-                    elements_selector: ".grid-item",
-                    load_delay: 300
-                });
-
-                lazyLoadInstance.update();
             })
             .catch(error => console.error('Error fetching posts:', error));
     } else {
@@ -46,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const articleId = urlParams.get('id'); // URLから記事IDを取得する
         console.log('Article ID:', articleId);
 
-        fetch('blog/posts.json')
+        fetch('/website/blog/posts.json')  // 修正: 絶対パスを使用
             .then(response => response.json())
             .then(posts => {
                 console.log('Posts fetched for article');
@@ -56,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('article-date').textContent = articleData.date;
 
                     // 記事の内容をフェッチして表示
-                    fetch(articleData.url)
+                    fetch(`/website/${articleData.url}`)  // 修正: 絶対パスを使用
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
@@ -78,17 +70,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     const nextPost = posts[currentIndex + 1];
 
                     if (prevPost) {
-                        document.getElementById('prev-article').href = `${prevPost.url}?id=${prevPost.id}`;
+                        document.getElementById('prev-article').href = `/website/${prevPost.url}?id=${prevPost.id}`;  // 修正: 絶対パスを使用
                         document.getElementById('prev-article').textContent = `Prev: ${prevPost.title}`;
-                        console.log('Previous article link set to', `${prevPost.url}?id=${prevPost.id}`);
+                        console.log('Previous article link set to', `/website/${prevPost.url}?id=${prevPost.id}`);
                     } else {
                         document.getElementById('prev-article').style.display = 'none';
                     }
 
                     if (nextPost) {
-                        document.getElementById('next-article').href = `${nextPost.url}?id=${nextPost.id}`;
+                        document.getElementById('next-article').href = `/website/${nextPost.url}?id=${nextPost.id}`;  // 修正: 絶対パスを使用
                         document.getElementById('next-article').textContent = `Next: ${nextPost.title}`;
-                        console.log('Next article link set to', `${nextPost.url}?id=${nextPost.id}`);
+                        console.log('Next article link set to', `/website/${nextPost.url}?id=${nextPost.id}`);
                     } else {
                         document.getElementById('next-article').style.display = 'none';
                     }
