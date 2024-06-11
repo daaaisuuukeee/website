@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const nextPost = posts[currentIndex + 1];
 
                     if (prevPost) {
-                        document.getElementById('prev-article').href = `/website/${prevPost.url}?id=${prevPost.id}`;  // 修正: 絶対パスを使用
+                        document.getElementById('prev-article').href = `/website/blog/${prevPost.url}?id=${prevPost.id}`;  // 修正: 絶対パスを使用
                         document.getElementById('prev-article').textContent = `Prev: ${prevPost.title}`;
                         console.log('Previous article link set to', `/website/${prevPost.url}?id=${prevPost.id}`);
                     } else {
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                     if (nextPost) {
-                        document.getElementById('next-article').href = `/website/${nextPost.url}?id=${nextPost.id}`;  // 修正: 絶対パスを使用
+                        document.getElementById('next-article').href = `/website/blog/${nextPost.url}?id=${nextPost.id}`;  // 修正: 絶対パスを使用
                         document.getElementById('next-article').textContent = `Next: ${nextPost.title}`;
                         console.log('Next article link set to', `/website/${nextPost.url}?id=${nextPost.id}`);
                     } else {
