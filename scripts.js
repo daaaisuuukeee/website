@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('article-date').textContent = articleData.date;
 
                     // 記事の内容をフェッチして表示
-                    fetch(`/website/${articleData.url}`)  // 修正: 絶対パスを使用
+                    fetch(`/website/blog/${articleData.url}`)  // 修正: 絶対パスを使用
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Network response was not ok');
