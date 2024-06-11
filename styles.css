@@ -169,9 +169,9 @@ article img {
     article-page main {
         padding: 1rem; /* スマートフォン用に調整 */
     }
-    
+
     article {
-        padding: 1rem; /* スマートフォン用に調整 */
+        padding: 0rem; /* スマートフォン用に調整 */
     }
 
     header {
