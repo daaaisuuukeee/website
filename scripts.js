@@ -1,65 +1,103 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let posts = [];
-    let currentPage = 1;
-    const postsPerPage = 5; // 一度に表示する投稿数
+    console.log('DOMContentLoaded event fired');
 
-    // JSONから投稿を取得し、日付順にソート
-    function fetchPosts() {
-        fetch('../blog/posts.json')
+    // ブログ一覧の表示
+    const blogListElement = document.getElementById('blog-list');
+    if (blogListElement) {
+        console.log('Blog list element found');
+        fetch('blog/posts.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-            .then(data => {
-                posts = data.sort((a, b) => new Date(b.date) - new Date(a.date)); // 最新順にソート
-                displayPosts();
-                setupLazyLoad();
+            .then(posts => {
+                console.log('Posts fetched successfully');
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('grid-item');
+                    postElement.innerHTML = `
+                        <h2><a href="${post.url}?id=${post.id}">${post.title}</a></h2>
+                        <p>${post.summary}</p>
+                        <p>${post.date}</p>
+                    `;
+                    blogListElement.appendChild(postElement);
+                });
+
+                // LazyLoadの初期化
+                const lazyLoadInstance = new LazyLoad({
+                    elements_selector: ".grid-item",
+                    load_delay: 300
+                });
+
+                lazyLoadInstance.update();
             })
             .catch(error => console.error('Error fetching posts:', error));
+    } else {
+        console.log('Blog list element not found');
     }
 
-    // 投稿を表示する
-    function displayPosts() {
-        const blogList = document.getElementById('blog-list');
-        const start = (currentPage - 1) * postsPerPage;
-        const end = start + postsPerPage;
-        const postsToDisplay = posts.slice(start, end);
+    // 記事ページの表示
+    const articleElement = document.getElementById('article');
+    if (articleElement) {
+        console.log('Article element found');
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id'); // URLから記事IDを取得する
+        console.log('Article ID:', articleId);
 
-        postsToDisplay.forEach(post => {
-            const postElement = document.createElement('div');
-            postElement.classList.add('grid-item');
-            postElement.innerHTML = `
-                <h2><a href="${post.url}?id=${post.id}">${post.title}</a></h2>
-                <p>${post.summary}</p>
-                <p>${post.date}</p>
-            `;
-            blogList.appendChild(postElement);
-        });
+        fetch('blog/posts.json')
+            .then(response => response.json())
+            .then(posts => {
+                console.log('Posts fetched for article');
+                const articleData = posts.find(post => post.id === articleId);
+                if (articleData) {
+                    document.getElementById('article-title').textContent = articleData.title;
+                    document.getElementById('article-date').textContent = articleData.date;
 
-        currentPage++;
-    }
+                    // 記事の内容をフェッチして表示
+                    fetch(articleData.url)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text();
+                        })
+                        .then(articleContent => {
+                            console.log('Article content fetched');
+                            document.getElementById('article-content').innerHTML = articleContent;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching article content:', error);
+                            document.getElementById('article-content').innerHTML = `<p>記事が見つかりません。</p>`;
+                        });
 
-    // Lazy Loadを設定する
-    function setupLazyLoad() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    displayPosts();
-                    observer.unobserve(entry.target);
-                    if (currentPage <= Math.ceil(posts.length / postsPerPage)) {
-                        observer.observe(document.querySelector('#blog-list > .grid-item:last-child'));
+                    // 前後の記事のリンクを生成
+                    const currentIndex = posts.indexOf(articleData);
+                    const prevPost = posts[currentIndex - 1];
+                    const nextPost = posts[currentIndex + 1];
+
+                    if (prevPost) {
+                        document.getElementById('prev-article').href = `${prevPost.url}?id=${prevPost.id}`;
+                        document.getElementById('prev-article').textContent = `Prev: ${prevPost.title}`;
+                        console.log('Previous article link set to', `${prevPost.url}?id=${prevPost.id}`);
+                    } else {
+                        document.getElementById('prev-article').style.display = 'none';
                     }
+
+                    if (nextPost) {
+                        document.getElementById('next-article').href = `${nextPost.url}?id=${nextPost.id}`;
+                        document.getElementById('next-article').textContent = `Next: ${nextPost.title}`;
+                        console.log('Next article link set to', `${nextPost.url}?id=${nextPost.id}`);
+                    } else {
+                        document.getElementById('next-article').style.display = 'none';
+                    }
+                } else {
+                    document.getElementById('article-content').innerHTML = `<p>記事が見つかりません。</p>`;
                 }
-            });
-        }, {
-            rootMargin: '0px 0px 200px 0px',
-            threshold: 0.1
-        });
-
-        observer.observe(document.querySelector('#blog-list > .grid-item:last-child'));
+            })
+            .catch(error => console.error('Error fetching article:', error));
+    } else {
+        console.log('Article element not found');
     }
-
-    fetchPosts();
 });
