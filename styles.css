@@ -1,0 +1,198 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    overflow-x: hidden; /* 横スクロールを防止 */
+}
+
+header {
+    background-color: #f0f0f0;
+    color: black;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between; /* 子要素を左右に配置 */
+    align-items: center; /* 子要素を上下中央に配置 */
+    font-family: "DotGothic16", sans-serif;
+    flex-wrap: wrap; /* 要素が折り返されるようにする */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-align: left; /* 左寄せ（デフォルト） */
+    flex: 1 0 auto; /* 自動幅 */
+}
+
+header h1 a {
+    color: inherit; /* 親要素の色を継承 */
+    text-decoration: none; /* アンダーバーを削除 */
+}
+
+header h1 a:hover {
+    filter: blur(10px); /* ホバー時のブラー効果 */
+    transition: 0.4s cubic-bezier(0.45, 0, 0.55, 1); /* スムーズなアニメーション */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* 要素が折り返されるようにする */
+}
+
+nav ul li {
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    transition: 0.4s cubic-bezier(0.45, 0, 0.55, 1); /* スムーズなアニメーション */
+}
+
+nav ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.4s cubic-bezier(0.45, 0, 0.55, 1); /* スムーズなアニメーション */
+}
+
+nav ul li:hover a {
+    filter: blur(10px); /* ブラー効果を適用 */
+}
+
+main {
+    padding: 1rem 2rem; /* 上下に1rem、左右に2remの余白を追加 */
+    font-family: "DotGothic16", sans-serif;
+    max-width: 1200px; /* 最大幅を設定 */
+    margin: 0 auto; /* 中央寄せ */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 横に3つ並べる設定 */
+    gap: 1rem;
+}
+
+.grid-item {
+    background-color: #ffffff00;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid-item h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+}
+
+.grid-item p {
+    margin: 0.5rem 0;
+}
+
+main a {
+    transition: 0.4s cubic-bezier(0.45, 0, 0.55, 1); /* スムーズなアニメーション */
+}
+
+main a:hover {
+    filter: blur(10px); /* ブラー効果を適用 */
+}
+
+.item {
+    width: 80%;
+    max-width: 1200px; /* コンテナの最大幅を設定 */
+    margin: 0 auto;
+    padding: 0 20px; /* 両端に余白を追加 */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.item img {
+    width: 100%;
+    max-width: 100%; /* 画像の最大幅を100%に設定 */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item h2, .item p {
+    margin: 1rem 0; /* 少し余白を追加 */
+}
+
+footer {
+    background-color: transparent; /* 背景色を透明に設定 */
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    margin: 0; /* マージンをリセット */
+    border: none; /* ボーダーをリセット */
+}
+
+article-page main {
+    padding: 1rem 5rem; /* 左右にもっと余白を追加 */
+}
+
+article {
+    padding: 3rem; /* 記事全体の余白 */
+}
+
+article h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+article p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+article img {
+    max-width: 80%; /* ウィンドウサイズに合わせて自動調整 */
+    height: auto;
+    display: block;
+    margin: 0 auto; /* 中央寄せ */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+}
+
+/* レスポンシブデザインのためのメディアクエリ */
+@media screen and (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* 横に1つずつ並べる設定 */
+    }
+
+    main {
+        padding: 1rem; /* スマートフォン用の余白を調整 */
+    }
+
+    article-page main {
+        padding: 1rem; /* スマートフォン用に調整 */
+    }
+
+    header {
+        flex-direction: column; /* スマートフォン用に縦並びに変更 */
+    }
+
+    nav ul {
+        justify-content: center; /* ナビゲーションメニューを中央寄せ */
+        width: 100%; /* ナビゲーションメニューを100%幅に設定 */
+    }
+}
+
+/* デスクトップ用のスタイル */
+@media screen and (min-width: 769px) {
+    header h1 {
+        flex: 0 1 auto; /* 自動幅に設定 */
+    }
+
+    nav {
+        flex: 1; /* ナビゲーションメニューを右側に配置 */
+        display: flex;
+        justify-content: flex-end; /* 右寄せに配置 */
+    }
+
+    nav ul {
+        justify-content: flex-end; /* ナビゲーションメニューを右寄せ */
+    }
+}
