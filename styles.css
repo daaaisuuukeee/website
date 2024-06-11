@@ -169,6 +169,10 @@ article img {
     article-page main {
         padding: 1rem; /* スマートフォン用に調整 */
     }
+    
+    article {
+        padding: 1rem; /* スマートフォン用に調整 */
+    }
 
     header {
         flex-direction: column; /* スマートフォン用に縦並びに変更 */
