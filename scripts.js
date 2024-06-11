@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         })
                         .then(articleContent => {
                             console.log('Article content fetched');
-                            // ヘッダー要素が重複しないように、特定の部分のみを挿入
+                            // DOMParserを使用して記事の本文のみを抽出
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(articleContent, 'text/html');
                             const articleBody = doc.querySelector('article').innerHTML;
